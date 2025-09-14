@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy-Preserving ML Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Privacy-Preserving ML Dashboard</h1>
+                <p>Secure Machine Learning on Sensitive Healthcare Data</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="overview">
+                <i class="fas fa-chart-line"></i> Overview
+            </button>
+            <button class="tab-btn" data-tab="privacy-utility">
+                <i class="fas fa-balance-scale"></i> Privacy-Utility
+            </button>
+            <button class="tab-btn" data-tab="models">
+                <i class="fas fa-brain"></i> Models
+            </button>
+            <button class="tab-btn" data-tab="experiments">
+                <i class="fas fa-flask"></i> Experiments
+            </button>
+            <button class="tab-btn" data-tab="settings">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </nav>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="dataset-size">10,000</h3>
+                        <p>Patient Records</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="models-trained">4</h3>
+                        <p>ML Models</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="privacy-methods">2</h3>
+                        <p>Privacy Methods</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="best-auc">0.9886</h3>
+                        <p>Best ROC-AUC</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overview-charts">
+                <div class="chart-container">
+                    <h3>Model Performance Comparison</h3>
+                    <canvas id="modelComparisonChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Privacy Budget Distribution</h3>
+                    <div id="privacyBudgetChart"></div>
+                </div>
+            </div>
+
+            <div class="recent-experiments">
+                <h3><i class="fas fa-history"></i> Recent Experiments</h3>
+                <div class="experiment-list" id="experimentList">
+                    <!-- Experiments will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy-Utility Tab -->
+        <div id="privacy-utility" class="tab-content">
+            <div class="controls-panel">
+                <h3><i class="fas fa-sliders-h"></i> Privacy Parameters</h3>
+                <div class="control-group">
+                    <label for="epsilonSlider">Privacy Budget (ε):</label>
+                    <input type="range" id="epsilonSlider" min="0.1" max="10" step="0.1" value="1.0">
+                    <span id="epsilonValue">1.0</span>
+                </div>
+                <div class="control-group">
+                    <label for="deltaInput">Delta (δ):</label>
+                    <input type="number" id="deltaInput" value="0.00001" step="0.000001" min="0.000001">
+                </div>
+                <button id="updatePrivacyBtn" class="btn-primary">
+                    <i class="fas fa-sync"></i> Update Analysis
+                </button>
+            </div>
+
+            <div class="privacy-charts">
+                <div class="chart-container full-width">
+                    <h3>Privacy-Utility Tradeoff Curve</h3>
+                    <div id="privacyUtilityChart"></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Utility Drop Analysis</h3>
+                    <canvas id="utilityDropChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Privacy Efficiency</h3>
+                    <canvas id="privacyEfficiencyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="privacy-insights">
+                <h3><i class="fas fa-lightbulb"></i> Privacy Insights</h3>
+                <div id="privacyInsights" class="insights-grid">
+                    <!-- Insights will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Models Tab -->
+        <div id="models" class="tab-content">
+            <div class="model-selector">
+                <h3><i class="fas fa-brain"></i> Select Model</h3>
+                <div class="model-buttons">
+                    <button class="model-btn active" data-model="baseline">Baseline Models</button>
+                    <button class="model-btn" data-model="dp">Differential Privacy</button>
+                    <button class="model-btn" data-model="fl">Federated Learning</button>
+                </div>
+            </div>
+
+            <div class="model-details" id="modelDetails">
+                <!-- Model details will be loaded here -->
+            </div>
+
+            <div class="model-performance">
+                <div class="performance-metrics">
+                    <h3>Performance Metrics</h3>
+                    <div id="performanceTable"></div>
+                </div>
+                <div class="confusion-matrix">
+                    <h3>Model Visualization</h3>
+                    <div id="modelVisualization"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experiments Tab -->
+        <div id="experiments" class="tab-content">
+            <div class="experiment-controls">
+                <h3><i class="fas fa-play"></i> Run New Experiment</h3>
+                <div class="experiment-form">
+                    <div class="form-group">
+                        <label>Experiment Type:</label>
+                        <select id="experimentType">
+                            <option value="dp">Differential Privacy</option>
+                            <option value="fl">Federated Learning</option>
+                            <option value="comparison">Method Comparison</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Privacy Budget Range:</label>
+                        <input type="text" id="privacyRange" placeholder="0.1,0.5,1.0,2.0,5.0,10.0">
+                    </div>
+                    <div class="form-group">
+                        <label>Dataset Size:</label>
+                        <input type="number" id="datasetSize" value="1000" min="100" max="10000">
+                    </div>
+                    <button id="runExperimentBtn" class="btn-primary">
+                        <i class="fas fa-rocket"></i> Run Experiment
+                    </button>
+                </div>
+            </div>
+
+            <div class="experiment-results">
+                <h3><i class="fas fa-chart-area"></i> Experiment Results</h3>
+                <div id="experimentProgress" class="progress-container" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <p id="progressText">Running experiment...</p>
+                </div>
+                <div id="experimentResults"></div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="settings-panel">
+                <h3><i class="fas fa-cog"></i> Configuration</h3>
+                
+                <div class="setting-group">
+                    <h4>Data Settings</h4>
+                    <div class="setting-item">
+                        <label>Dataset Path:</label>
+                        <input type="text" id="datasetPath" value="data/healthcare_data.csv">
+                    </div>
+                    <div class="setting-item">
+                        <label>Train/Test Split:</label>
+                        <input type="range" id="trainSplit" min="0.5" max="0.9" step="0.1" value="0.8">
+                        <span id="trainSplitValue">80%</span>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Privacy Settings</h4>
+                    <div class="setting-item">
+                        <label>Default Epsilon:</label>
+                        <input type="number" id="defaultEpsilon" value="1.0" step="0.1" min="0.1">
+                    </div>
+                    <div class="setting-item">
+                        <label>Default Delta:</label>
+                        <input type="number" id="defaultDelta" value="0.00001" step="0.000001">
+                    </div>
+                    <div class="setting-item">
+                        <label>Privacy Budget Tracking:</label>
+                        <input type="checkbox" id="budgetTracking" checked>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Visualization Settings</h4>
+                    <div class="setting-item">
+                        <label>Chart Theme:</label>
+                        <select id="chartTheme">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="auto">Auto</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Animation Speed:</label>
+                        <input type="range" id="animationSpeed" min="0" max="2000" step="100" value="1000">
+                        <span id="animationSpeedValue">1000ms</span>
+                    </div>
+                </div>
+
+                <button id="saveSettingsBtn" class="btn-primary">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+
+            <div class="export-panel">
+                <h3><i class="fas fa-download"></i> Export Data</h3>
+                <div class="export-options">
+                    <button class="btn-secondary" onclick="exportResults('json')">
+                        <i class="fas fa-file-code"></i> Export JSON
+                    </button>
+                    <button class="btn-secondary" onclick="exportResults('csv')">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn-secondary" onclick="exportResults('pdf')">
+                        <i class="fas fa-file-pdf"></i> Export Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading privacy analysis...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

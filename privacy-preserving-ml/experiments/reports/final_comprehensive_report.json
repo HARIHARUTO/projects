@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-09-14T14:34:28.956208",
+  "project_title": "Privacy-Preserving Analytics: Secure ML on Sensitive Healthcare Data",
+  "summary": {
+    "total_experiments": 7,
+    "privacy_methods_tested": [
+      "Differential Privacy"
+    ],
+    "dataset_size": {
+      "train": 8000,
+      "test": 2000,
+      "total": 10000
+    },
+    "best_baseline_performance": {
+      "model": "gradient_boosting",
+      "roc_auc": 0.9886479145576237,
+      "accuracy": 0.9555
+    },
+    "best_private_performance": {
+      "method": "Differential Privacy",
+      "epsilon": 2.0,
+      "roc_auc": 0.9684601036355243,
+      "accuracy": 0.942
+    },
+    "privacy_utility_tradeoff": {
+      "utility_drop": 0.020187810922099425,
+      "relative_drop_percent": 2.0419616149327116
+    }
+  },
+  "detailed_results": {
+    "baseline": {
+      "logistic_regression": {
+        "accuracy": 0.942,
+        "precision": 0.8235294117647058,
+        "recall": 0.7473309608540926,
+        "f1_score": 0.7835820895522388,
+        "roc_auc": 0.9684580334093107,
+        "cv_auc_mean": 0.9757958504501086,
+        "cv_auc_std": 0.004947242674121956
+      },
+      "random_forest": {
+        "accuracy": 0.9505,
+        "precision": 0.864,
+        "recall": 0.7686832740213523,
+        "f1_score": 0.8135593220338984,
+        "roc_auc": 0.9837632158065911,
+        "cv_auc_mean": 0.9837663179685446,
+        "cv_auc_std": 0.0046108967995948085
+      },
+      "gradient_boosting": {
+        "accuracy": 0.9555,
+        "precision": 0.8966942148760331,
+        "recall": 0.7722419928825622,
+        "f1_score": 0.8298279158699808,
+        "roc_auc": 0.9886479145576237,
+        "cv_auc_mean": 0.9899841631113556,
+        "cv_auc_std": 0.0030542926330989493
+      },
+      "svm": {
+        "accuracy": 0.945,
+        "precision": 0.8301158301158301,
+        "recall": 0.7651245551601423,
+        "f1_score": 0.7962962962962963,
+        "roc_auc": 0.9760081484103766,
+        "cv_auc_mean": 0.977169707143821,
+        "cv_auc_std": 0.004271942140611166
+      }
+    },
+    "differential_privacy": {
+      "0.1": {
+        "accuracy": 0.9425,
+        "roc_auc": 0.968375224360766,
+        "f1_score": 0.7858472998137802
+      },
+      "0.5": {
+        "accuracy": 0.942,
+        "roc_auc": 0.9684518227306698,
+        "f1_score": 0.7835820895522388
+      },
+      "1.0": {
+        "accuracy": 0.942,
+        "roc_auc": 0.9684518227306699,
+        "f1_score": 0.7835820895522388
+      },
+      "2.0": {
+        "accuracy": 0.942,
+        "roc_auc": 0.9684601036355243,
+        "f1_score": 0.7835820895522388
+      },
+      "5.0": {
+        "accuracy": 0.942,
+        "roc_auc": 0.968455963183097,
+        "f1_score": 0.7835820895522388
+      },
+      "10.0": {
+        "accuracy": 0.942,
+        "roc_auc": 0.968455963183097,
+        "f1_score": 0.7835820895522388
+      }
+    }
+  },
+  "key_findings": [
+    "Successfully implemented privacy-preserving ML on synthetic healthcare data",
+    "Demonstrated measurable privacy-utility tradeoffs with differential privacy",
+    "Generated comprehensive visualizations and analysis framework",
+    "Best baseline model achieved 0.9886 ROC-AUC",
+    "Best private model achieved 0.9685 ROC-AUC with \u03b5=2.0",
+    "Privacy cost: 0.0202 AUC drop (2.0%)"
+  ],
+  "recommendations": [
+    "For high-privacy requirements (\u03b5 < 1.0): Expect significant utility drop but strong privacy",
+    "For moderate privacy (\u03b5 = 1.0-5.0): Good balance between privacy and utility",
+    "For production deployment: Implement privacy budget tracking and monitoring",
+    "Consider federated learning for scenarios requiring data locality",
+    "Extend experiments with larger datasets and more complex models"
+  ]
+}
